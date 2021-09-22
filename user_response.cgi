@@ -18,12 +18,15 @@ fi
 
 echo "This program ran on: $(date)" >> ./user_response.log
 
-# Read the value from user.html
-username=${}
+# Read the value from user.html which was placed into the query string
+USERNAME=${QUERY_STRING#*username=}
+USERNAME=${USERNAME%%&*}
+USERNAME=${USERNAME//+/ }
 
 # emit my HTTP response header
 echo "content-type: text/html"
 echo "X-directory: $(pwd)"
+echo "X-class: cit384"
 
 # emit a blank line
 echo ""
@@ -38,7 +41,7 @@ cat <<EOF
 <body>
 EOF
 
-echo "<p> Username: ${username} </p>"
+echo "<p> Username you entered: $USERNAME </p>"
 
 # emit some of the HTML Stuff
 cat <<EOF
